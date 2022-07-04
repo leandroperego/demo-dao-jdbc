@@ -1,5 +1,6 @@
 package model.dao.implem;
 
+import java.sql.Connection;
 import java.util.List;
 
 import model.dao.Dao;
@@ -7,6 +8,12 @@ import model.entidades.Department;
 
 public class DepartmentDaoJDBC implements Dao<Department>{
 
+	Connection conn = null;
+	
+	public DepartmentDaoJDBC(Connection conn) {
+		this.conn = conn;
+	}
+	
 	@Override
 	public void insert(Department obj) {
 		// TODO Auto-generated method stub
