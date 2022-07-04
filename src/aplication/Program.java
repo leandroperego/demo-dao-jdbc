@@ -10,7 +10,7 @@ public class Program {
 		
 		Dao<Seller> conexSeller = DaoFactory.createSellerDao();
 		
-		Seller seller = conexSeller.findById(3);
+		Seller seller = conexSeller.findById(6);
 		
 		System.out.println(seller);
 		

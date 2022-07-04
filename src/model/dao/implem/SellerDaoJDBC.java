@@ -47,7 +47,7 @@ public class SellerDaoJDBC implements Dao<Seller> {
 			//CRIAR O PREPARE STATEMENT DE ACORDO COMO QUER O RESULTADO
 			ps = this.conn.prepareStatement(
 					"SELECT seller.*, department.Name as DepName FROM seller INNER JOIN department "
-					+ "ON Department.Id = Seller.Id "
+					+ "ON Seller.DepartmentId = department.Id "
 					+ "WHERE Seller.Id = ?");
 			
 			//INSTANCIAR O VALOR QUE QUER BUSCAR O RESULTADO
