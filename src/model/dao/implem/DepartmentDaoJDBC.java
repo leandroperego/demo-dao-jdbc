@@ -8,7 +8,7 @@ import model.entidades.Department;
 
 public class DepartmentDaoJDBC implements Dao<Department>{
 
-	Connection conn = null;
+	private Connection conn = null;
 	
 	public DepartmentDaoJDBC(Connection conn) {
 		this.conn = conn;
