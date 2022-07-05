@@ -58,11 +58,8 @@ public class SellerDaoJDBC implements Dao<Seller> {
 			
 			//PERCORRER O RESULT SET PARA RETORNAR O SELLER
 			if (rs.next()) {
-				return new Seller(rs.getInt("Id"), rs.getString("Name")
-						,rs.getString("Email")
-						,rs.getDate("BirthDate")
-						,rs.getDouble("BaseSalary")
-						,new Department(rs.getInt("DepartmentId"), rs.getString("DepName")));
+				return sellerInstancia(rs);
+						
 			}
 			return null;
 		}
@@ -73,6 +70,18 @@ public class SellerDaoJDBC implements Dao<Seller> {
 			DB.closeResultSet(rs);
 			DB.closeStatement(ps);
 		}
+	}
+	
+	private Seller sellerInstancia(ResultSet rs) throws SQLException {
+		return new Seller(rs.getInt("Id"), rs.getString("Name")
+				,rs.getString("Email")
+				,rs.getDate("BirthDate")
+				,rs.getDouble("BaseSalary")
+				,departmentInstancia(rs));
+	}
+	
+	private Department departmentInstancia(ResultSet rs) throws SQLException {
+		return new Department(rs.getInt("DepartmentId"), rs.getString("DepName"));
 	}
 
 	@Override
