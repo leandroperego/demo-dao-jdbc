@@ -1,9 +1,11 @@
 package aplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.dao.Dao;
 import model.dao.DaoFactory;
+import model.dao.DaoSellerJDBC;
 import model.entidades.Department;
 import model.entidades.Seller;
 
@@ -11,13 +13,12 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		Dao<Seller> acessoSeller = DaoFactory.createSellerDao();
+		DaoSellerJDBC bancoSeller = DaoFactory.createSellerDao();
 		
-		List<Seller> lista = acessoSeller.findBy(new Department(1, null));
+		List<Seller> lista = new ArrayList<Seller>();
+		lista = bancoSeller.findAll();
 		
-		lista.forEach(s -> System.out.println(s));
-		
-		
+		lista.forEach(System.out::println);
 		
 	}
 
