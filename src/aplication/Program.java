@@ -1,22 +1,21 @@
 package aplication;
 
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
+import model.dao.DaoDepartmentJDBC;
 import model.dao.DaoFactory;
-import model.dao.implem.SellerDaoJDBC;
+import model.entidades.Department;
 
 public class Program {
 
 	public static void main(String[] args) {
 		
-		Scanner sc = new Scanner(System.in);
+		DaoDepartmentJDBC acessoDepart = DaoFactory.createDepartmentDao();
+		List<Department> lista = new ArrayList<>();
+		lista = acessoDepart.findAll();
 		
-		System.out.print("Qual id irá excluir: ");
-		int id = sc.nextInt();
-		SellerDaoJDBC acessoBDSeller = DaoFactory.createSellerDao();
-		acessoBDSeller.deleteById(id);
-		
-		sc.close();
+		lista.forEach(System.out::println);
 	}
 
 }
