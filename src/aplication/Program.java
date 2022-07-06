@@ -1,7 +1,10 @@
 package aplication;
 
+import java.util.Date;
+
 import model.dao.DaoFactory;
 import model.dao.DaoSellerJDBC;
+import model.entidades.Department;
 import model.entidades.Seller;
 
 public class Program {
@@ -10,10 +13,9 @@ public class Program {
 		
 		DaoSellerJDBC bancoSeller = DaoFactory.createSellerDao();
 		
-		Seller seller = bancoSeller.findById(1);
-		seller.setName("Mudado Teste");
-		bancoSeller.update(seller);
-		
+		Seller seller = new Seller(null, "Inserindo dados", "inserindo@gmail.com", new Date(), 3000.00, new Department(2, null));
+		bancoSeller.insert(seller);
+		System.out.println("Inserido. Seller recebeu o id: " + seller.getId());
 	}
 
 }
