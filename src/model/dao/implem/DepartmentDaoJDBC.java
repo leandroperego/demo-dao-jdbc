@@ -4,12 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DB;
 import db.DbException;
 import model.dao.Dao;
 import model.entidades.Department;
+import model.entidades.Seller;
 
 public class DepartmentDaoJDBC implements Dao<Department>{
 

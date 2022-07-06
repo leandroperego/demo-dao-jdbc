@@ -9,4 +9,5 @@ public interface Dao<T> {
 	void deleteById(Integer id);
 	T findById(Integer id);
 	List<T> findAll();
+	List<T> findBy(Object tipo);
 }

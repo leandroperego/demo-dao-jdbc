@@ -1,7 +1,10 @@
 package aplication;
 
+import java.util.List;
+
 import model.dao.Dao;
 import model.dao.DaoFactory;
+import model.entidades.Department;
 import model.entidades.Seller;
 
 public class Program {
@@ -10,8 +13,11 @@ public class Program {
 		
 		Dao<Seller> acessoSeller = DaoFactory.createSellerDao();
 		
-		Seller seller = acessoSeller.findById(6);
-		System.out.println(seller);
+		List<Seller> lista = acessoSeller.findBy(new Department(1, null));
+		
+		lista.forEach(s -> System.out.println(s));
+		
+		
 		
 	}
 
