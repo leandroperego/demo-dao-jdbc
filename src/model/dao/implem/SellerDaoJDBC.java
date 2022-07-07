@@ -34,6 +34,7 @@ public class SellerDaoJDBC implements DaoSellerJDBC {
 					+ "VALUES "
 					+ "(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			
+			conn.setAutoCommit(false);
 			ps.setString(1, obj.getName());
 			ps.setString(2, obj.getEmail());
 			ps.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
@@ -50,12 +51,13 @@ public class SellerDaoJDBC implements DaoSellerJDBC {
 					obj.setId(id);
 				}
 				DB.closeResultSet(rs);
+				conn.commit();
 			} else {
 				throw new DbException("Erro. Nenhuma linha foi criada");
 			}
 		}
 		catch (SQLException e) {
-			throw new DbException(e.getMessage());
+			rollBack(conn, e);
 		}
 		finally {
 			DB.closeStatement(ps);
@@ -97,17 +99,18 @@ public class SellerDaoJDBC implements DaoSellerJDBC {
 			ps = conn.prepareStatement("DELETE "
 					+ "FROM seller "
 					+ "WHERE Id = ?");
+			conn.setAutoCommit(false);
 			ps.setInt(1, id);
 			
 			int linha = ps.executeUpdate();
-			
+			conn.commit();
 			if (linha == 0) {
 				throw new DbException("Erro. Esse id não foi encontrado");
 			}
 			
 		}
 		catch (SQLException e) {
-			throw new DbException(e.getMessage());
+			rollBack(conn, e);
 		}
 		finally {
 			DB.closeStatement(ps);
