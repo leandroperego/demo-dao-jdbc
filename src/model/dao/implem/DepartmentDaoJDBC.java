@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +23,60 @@ public class DepartmentDaoJDBC implements DaoDepartmentJDBC{
 	
 	@Override
 	public void insert(Department obj) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
 		
+		try {
+			ps = conn.prepareStatement("INSERT INTO department "
+					+ "SET Name = ? ", Statement.RETURN_GENERATED_KEYS);
+			
+			conn.setAutoCommit(false);
+			ps.setString(1, obj.getName());
+			
+			int linha = ps.executeUpdate();
+			
+			if (linha > 0) {
+				ResultSet rs = ps.getGeneratedKeys();
+				if (rs.next()) {
+					obj.setId(rs.getInt(1));
+				}
+				conn.commit();
+				DB.closeResultSet(rs);
+			} else {
+				throw new DbException("Erro. Não foi inserido nenhum dado");
+			}
+			
+		}
+		catch (SQLException e) {
+			rollBack(conn, e);
+		}
+		finally {
+			DB.closeStatement(ps);
+		}		
 	}
 
 	@Override
 	public void update(Department obj) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
 		
+		try {
+			ps = conn.prepareStatement("UPDATE department "
+					+ "SET Name = ? "
+					+ "WHERE Id = ? ");
+			
+			conn.setAutoCommit(false);
+			ps.setInt(2, obj.getId());
+			ps.setString(1, obj.getName());
+			
+			ps.executeUpdate();
+			conn.commit();
+			
+		}
+		catch (SQLException e) {
+			rollBack(conn, e);
+		}
+		finally {
+			DB.closeStatement(ps);
+		}
 	}
 
 	@Override
@@ -40,16 +87,17 @@ public class DepartmentDaoJDBC implements DaoDepartmentJDBC{
 			
 			ps = conn.prepareStatement("DELETE FROM department "
 					+ "WHERE Id = ?");
+			conn.setAutoCommit(false);
 			ps.setInt(1, id);
 			
 			int linha = ps.executeUpdate();
-			
+			conn.commit();
 			if (linha == 0) {
 				throw new DbException("Erro. Id não encontrado!");
 			}
 			
 		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
+			rollBack(conn, e);
 		}
 		finally {
 			DB.closeStatement(ps);
